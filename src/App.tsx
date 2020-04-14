@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from './components/layout/Navbar';
-import UserItem from './components/users/UserItem'
+import Users from './components/users/Users'
 import './App.css';
 
 
@@ -11,7 +11,9 @@ class App extends Component<{}> {
       <div className="App">
         <header className="App-header">
           <Navbar title="Github Finder"  />
-          <UserItem />
+          <div className="container">
+            <Users />
+          </div>
         </header>
       </div>
     );

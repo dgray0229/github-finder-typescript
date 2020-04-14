@@ -5,7 +5,9 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 // We define the type of our props in a separate object
 type NavbarProps = {
-    title: string
+    title: string,
+    // The question mark means that the icon property is optional
+    icon?: any,
 }
 
 // We then pass that type to our navbar component
