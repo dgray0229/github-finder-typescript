@@ -1,50 +1,29 @@
-import React, { Component } from 'react'
+import React from 'react'
 import UserItem from './UserItem'
+import Spinner from '../layout/Spinner'
 
 // Here we are creating an interface to define our state
-interface IState {
+interface UsersProps {
     users: {
         login: string,
         id: number,
         avatar_url: string,
         html_url: string,
-    }[]
+    }[],
+    loading?: boolean,
 }
 
-export default class Users extends Component<{},IState> {
+const Users = ({ users, loading }:UsersProps) => {
     // If we don't create a constructor, JavaScript will initialize by default what it needs for a basic class, such as error methods
-    state = {
-        users: [
-            {
-                login: "mojombo",
-                id: 1,
-                avatar_url: "https://avatars0.githubusercontent.com/u/1?v=4",
-                html_url: "https://github.com/mojombo",
-            },
-            {
-                login: "defunkt",
-                id: 2,
-                avatar_url: "https://avatars0.githubusercontent.com/u/2?v=4",
-                "html_url": "https://github.com/defunkt",
-            },
-            {
-                login: "pjhyett",
-                id: 3,
-                avatar_url: "https://avatars0.githubusercontent.com/u/3?v=4",
-                html_url: "https://github.com/pjhyett",
-            }
-    
-        ]
-    }
-    render() {
-        return (
-            <div style={userStyle}>
-                {this.state.users.map(user => (
-                    <UserItem key={user.id} user={user} />
-                ))}
-            </div>
-        )
-    }
+    return loading ? 
+    (<Spinner />) : 
+    (
+        <div style={userStyle}>
+            {users.map(user => (
+                <UserItem key={user.id} user={user} />
+            ))}
+        </div>
+    )
 }
 
 const userStyle = {
@@ -52,3 +31,5 @@ const userStyle = {
     gridTemplateColumns: 'repeat(3, 1fr)',
     gridGap: '1rem',
 }
+
+export default Users

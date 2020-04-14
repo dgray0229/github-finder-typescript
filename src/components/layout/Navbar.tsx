@@ -11,7 +11,7 @@ type NavbarProps = {
 }
 
 // We then pass that type to our navbar component
-export const Navbar = ( {title}: NavbarProps) => {
+const Navbar = ( {title}: NavbarProps) => {
     // Beacuse this is a funcitonal component, we no longer define default props inside of the component
 
     return (
