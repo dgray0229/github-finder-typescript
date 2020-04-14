@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 // import PropTypes from 'prop-types'
@@ -11,32 +11,23 @@ type NavbarProps = {
 }
 
 // We then pass that type to our navbar component
-export class Navbar extends Component<NavbarProps> {
-    // The 'static' keyword defines a static method for a class. 
-    // Static methods aren't called on instances of the class.
-    // Instead, they're called on the class itself.
-    // These are often utility functions, such as functions to create or clone objects
+export const Navbar = ( {title}: NavbarProps) => {
+    // Beacuse this is a funcitonal component, we no longer define default props inside of the component
 
-    /* 
-    The proptype way of doing things
-    static propTypes = {
-        title: PropTypes.string.isRequired
-    }
-    */
-    static defaultProps = {
-        // We assert that this property is non-null below with our '!' non-null assertion operator
-        title: "Github Finder"
-    };
+    return (
+        <header>
+            <nav className="navbar bg-primary">
+                <h1><FontAwesomeIcon icon={faGithub} /> {title!}</h1>
+            </nav>
+        </header>
+    )
 
-    render() {
-        return (
-            <header>
-                <nav className="navbar bg-primary">
-                    <h1><FontAwesomeIcon icon={faGithub} /> {this.props.title!}</h1>
-                </nav>
-            </header>
-        )
-    }
 }
+// Here is where we define default props for the navbar
+Navbar.defaultProps = {
+    // We assert that this property is non-null below with our '!' non-null assertion operator
+    title: "Github Finder"
+};
+
 
 export default Navbar
