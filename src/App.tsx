@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
+import Search from './components/users/Search';
 import './App.css';
 
 // Interfaces allow you to have multiple merged declarations, but a type alias for an objec ttype literal cannot
@@ -31,12 +32,22 @@ class App extends Component<{}, AppState> {
   // Since the function doesn't return a value, but rather updates the state
   // The function type would be Promise<void>
   // Adding this type is optional
+  // if this was a normal async function(){} the async goes before the function call
   getUsers = async ():Promise<void> => {
     this.setState({loading: true});
     let response = await axios.get(`https://api.github.com/users?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`)
     let { data } = response
     this.setState({users: data, loading: false})
-    console.log(data);
+
+  }
+
+  // Search Github Users
+  searchUsers = async (query: string):Promise<void> => {
+    console.log(query);
+    this.setState({loading: true});
+    let response = await axios.get(`https://api.github.com/search/users?q=${query}&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`)
+    let { items } = response.data
+    this.setState({users: items, loading: false})
 
   }
   
@@ -47,6 +58,7 @@ class App extends Component<{}, AppState> {
         <header className="App-header">
           <Navbar title="Github Finder"  />
           <div className="container">
+            <Search searchUsers={this.searchUsers} />
             <Users loading={loading} users={users} />
           </div>
         </header>
