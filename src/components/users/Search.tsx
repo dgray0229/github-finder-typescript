@@ -5,7 +5,9 @@ interface SearchState {
 }
 
 interface SearchProps {
-    searchUsers: (query: string) => void
+    searchUsers: (query: string) => void,
+    clearUsers: () => void,
+    showClear: boolean,
 }
 
 export default class Search extends Component<SearchProps, SearchState> {
@@ -28,18 +30,22 @@ export default class Search extends Component<SearchProps, SearchState> {
     // We use arrow functions here to avoid having to bind the value of `this` to our methods, 
     // because function methods create a new scope of `this`
     onSubmit = (event: React.SyntheticEvent<EventTarget>) => {
+        if (this.state.query === '') return null // TODO: Will be an alert 
         event.preventDefault();
         this.props.searchUsers(this.state.query)
         this.setState({query: ''})
     }
 
     render() {
+        const { clearUsers, showClear } = this.props;
+
         return (
             <div>
                 <form onSubmit={this.onSubmit} className="form">
-                    <input type="text" name="query" id="search" placeholder="Search Users..." value={this.state.query} onChange={this.handleChange} />
+                    <input type="text" name="query" id="search" placeholder="Search Users..." value={this.state.query} onChange={this.handleChange} required />
                     <input type="submit" value="Search" className="btn btn-dark btn-block" />
                 </form>
+                {showClear && <button className="btn btn-light btn-block" onClick={clearUsers}>Clear</button>}
             </div>
         )
     }
