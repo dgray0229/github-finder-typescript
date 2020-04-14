@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
+import Navbar from './components/layout/Navbar';
+import UserItem from './components/users/UserItem'
+import './App.css';
 
-class App extends Component {
+
+class App extends Component<{}> {
   
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src="#" className="App-logo" alt="logo" />
-          <p>
-            Hello from React and TypeScript.
-          </p>
+          <Navbar title="Github Finder"  />
+          <UserItem />
         </header>
       </div>
     );
