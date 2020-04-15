@@ -11,7 +11,7 @@ import './App.css';
 interface AppState {
   users: {}[],
   loading: boolean,
-  alert?: {
+  alert: {
     message?: string | null,
     type?: string | null,
   } | null 
@@ -27,7 +27,7 @@ class App extends Component<{}, AppState> {
   state = {
     users: [],
     loading: false,
-    alert: {message: "Please enter something", type: "light"},
+    alert: null,
   }
 
   componentDidMount(): void {
@@ -50,7 +50,6 @@ class App extends Component<{}, AppState> {
 
   // Search Github Users
   searchUsers = async (query: string):Promise<void> => {
-    console.log(query);
     this.setState({loading: true});
     let response = await axios.get(`https://api.github.com/search/users?q=${query}&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`)
     let { items } = response.data;
@@ -63,7 +62,8 @@ class App extends Component<{}, AppState> {
   
   // Set Alert
   setAlert = (message: string, type: string): void => {
-    this.setState({ alert: {message, type} })
+    this.setState({ alert: { message, type } })
+    setTimeout(() => this.setState({alert: null}), 5000)
   };
 
   render() {

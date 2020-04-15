@@ -4,27 +4,23 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 
 interface AlertProps {
-    alert?: {
-        message?: string | null,
-        type?: string | null,
-    } | null 
+    alert: {
+        message?: string, 
+        type?: string,
+    } | null
 }
 
-const Alert = ( { alert: { message, type } }: AlertProps ): JSX.Element => {
+
+const Alert: React.FunctionComponent<AlertProps> = ( { alert } : AlertProps ): any => {
     return (
         alert !== null && (
-            <div className={`alert alert-${type}`}>
-                <FontAwesomeIcon icon={faInfoCircle} /> {message}
+            <div className={`alert alert-${alert.type}`}>
+                <FontAwesomeIcon icon={faInfoCircle} /> {alert.message}
             </div>
         )
     )
 }
 
-Alert.defaultProps = {
-    // We assert that this property is non-null below with our '!' non-null assertion operator
-    message: "Please enter something",
-    type: "light"
-};
 
 
 export default Alert

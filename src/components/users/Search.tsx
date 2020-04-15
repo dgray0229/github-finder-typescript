@@ -46,7 +46,7 @@ export default class Search extends Component<SearchProps, SearchState> {
         return (
             <div>
                 <form onSubmit={this.onSubmit} className="form">
-                    <input type="text" name="query" id="search" placeholder="Search Users..." value={this.state.query} onChange={this.handleChange} required />
+                    <input type="text" name="query" id="search" placeholder="Search Users..." value={this.state.query} onChange={this.handleChange} />
                     <input type="submit" value="Search" className="btn btn-dark btn-block" />
                 </form>
                 {showClear && <button className="btn btn-light btn-block" onClick={clearUsers}>Clear</button>}
