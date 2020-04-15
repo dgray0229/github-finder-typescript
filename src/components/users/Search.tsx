@@ -8,6 +8,7 @@ interface SearchProps {
     searchUsers: (query: string) => void,
     clearUsers: () => void,
     showClear: boolean,
+    setAlert: ( message: string, type: string ) => void
 }
 
 export default class Search extends Component<SearchProps, SearchState> {
@@ -30,10 +31,13 @@ export default class Search extends Component<SearchProps, SearchState> {
     // We use arrow functions here to avoid having to bind the value of `this` to our methods, 
     // because function methods create a new scope of `this`
     onSubmit = (event: React.SyntheticEvent<EventTarget>) => {
-        if (this.state.query === '') return null // TODO: Will be an alert 
         event.preventDefault();
-        this.props.searchUsers(this.state.query)
-        this.setState({query: ''})
+        if (!this.state.query || this.state.query === '') {
+            this.props.setAlert("Please enter something", "light");
+        } else {
+            this.props.searchUsers(this.state.query)
+            this.setState({query: ''})
+        }
     }
 
     render() {

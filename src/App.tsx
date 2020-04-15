@@ -3,6 +3,7 @@ import axios from 'axios';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
 import Search from './components/users/Search';
+import Alert from './components/layout/Alert';
 import './App.css';
 
 // Interfaces allow you to have multiple merged declarations, but a type alias for an objec ttype literal cannot
@@ -10,6 +11,11 @@ import './App.css';
 interface AppState {
   users: {}[],
   loading: boolean,
+  alert?: {
+    message?: string | null,
+    type?: string | null,
+  } | null 
+
 }
 
 // In typescript, the class-based component expects two types:
@@ -21,6 +27,7 @@ class App extends Component<{}, AppState> {
   state = {
     users: [],
     loading: false,
+    alert: {message: "Please enter something", type: "light"},
   }
 
   componentDidMount(): void {
@@ -54,17 +61,24 @@ class App extends Component<{}, AppState> {
   // Clear Users from State
   clearUsers = ():void => this.setState({users: [], loading: false});
   
+  // Set Alert
+  setAlert = (message: string, type: string): void => {
+    this.setState({ alert: {message, type} })
+  };
+
   render() {
-    const {loading, users} = this.state;
+    const {alert, loading, users} = this.state;
     return (
       <div className="App">
         <header className="App-header">
           <Navbar title="Github Finder"  />
           <div className="container">
+            <Alert alert={alert} />
             <Search 
               searchUsers={this.searchUsers} 
               clearUsers={this.clearUsers}
               showClear={users.length ? true : false}
+              setAlert={this.setAlert}
              />
             <Users loading={loading} users={users} />
           </div>
