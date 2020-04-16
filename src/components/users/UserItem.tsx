@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 
 type UserItemProps = {
     key: number,
@@ -24,7 +25,7 @@ export const UserItem = ({user: {login, avatar_url, html_url}}: Readonly<UserIte
             }}/>
             <h3>{login}</h3>
             <div>
-                <a href={html_url} className="btn btn-dark btn-sm my-1" target="_blank" rel="noopener noreferrer">More</a>
+                <Link to={`/user/${login}`} className="btn btn-dark btn-sm my-1" rel="noopener noreferrer">More</Link>
             </div>
         </div>
     )

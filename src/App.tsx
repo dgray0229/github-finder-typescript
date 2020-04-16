@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, RouteComponentProps } from 'react-router-dom'
 import axios from 'axios';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
+import User from './components/users/User';
 import Search from './components/users/Search';
 import Alert from './components/layout/Alert';
 import About from './components/pages/About';
@@ -12,6 +13,7 @@ import './App.css';
 // Unlike an interface, the type alias can also be used for other types such as primitives, unions, and tuples
 interface AppState {
   users: {}[],
+  user: {} | null,
   loading: boolean,
   alert: {
     message?: string | null,
@@ -19,6 +21,7 @@ interface AppState {
   } | null 
 
 }
+
 
 // In typescript, the class-based component expects two types:
   // The first type parameter being used for props being passed in,
@@ -28,6 +31,7 @@ interface AppState {
 class App extends Component<{}, AppState> {
   state = {
     users: [],
+    user: {},
     loading: false,
     alert: null,
   }
@@ -59,6 +63,13 @@ class App extends Component<{}, AppState> {
 
   }
 
+  // Get a Single Github User
+  getUser = async (login: string):Promise<void> => {
+    this.setState({loading: true});
+    let response = await axios.get(`https://api.github.com/users/${login}?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`)
+    this.setState({user: response.data, loading: false});
+
+  }
   // Clear Users from State
   clearUsers = ():void => this.setState({users: [], loading: false});
   
@@ -69,7 +80,7 @@ class App extends Component<{}, AppState> {
   };
 
   render() {
-    const {alert, loading, users} = this.state;
+    const {alert, loading, users, user} = this.state;
     return (
       <Router>
         <div className="App">
@@ -90,6 +101,11 @@ class App extends Component<{}, AppState> {
                   </Fragment>
                 )} />
                 <Route exact path='/about' component={About} />
+                <Route exact path='/user/:login' render={props => (
+                  // We want to pass in any additional props passed to this route with { ...props }
+                  // Then we define props specific to our User component.
+                  <User { ...props } getUser={this.getUser} user={user} loading={loading} />
+                )} />
               </Switch>
             </div>
           </header>
