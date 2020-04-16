@@ -11,7 +11,7 @@ interface AlertProps {
 }
 
 
-const Alert: React.FunctionComponent<AlertProps> = ( { alert } : AlertProps ): any => {
+const Alert: React.FunctionComponent<AlertProps> = ( { alert } : AlertProps ): ReturnType<any> => {
     return (
         alert !== null && (
             <div className={`alert alert-${alert.type}`}>

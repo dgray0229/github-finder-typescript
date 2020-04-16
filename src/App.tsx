@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import axios from 'axios';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
 import Search from './components/users/Search';
 import Alert from './components/layout/Alert';
+import About from './components/pages/About';
 import './App.css';
 
 // Interfaces allow you to have multiple merged declarations, but a type alias for an objec ttype literal cannot
@@ -69,21 +71,30 @@ class App extends Component<{}, AppState> {
   render() {
     const {alert, loading, users} = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
-          <Navbar title="Github Finder"  />
-          <div className="container">
-            <Alert alert={alert} />
-            <Search 
-              searchUsers={this.searchUsers} 
-              clearUsers={this.clearUsers}
-              showClear={users.length ? true : false}
-              setAlert={this.setAlert}
-             />
-            <Users loading={loading} users={users} />
-          </div>
-        </header>
-      </div>
+      <Router>
+        <div className="App">
+          <header className="App-header">
+            <Navbar title="Github Finder"  />
+            <div className="container">
+              <Alert alert={alert} />
+              <Switch>
+                <Route exact path="/" render={props => (
+                  <Fragment>
+                    <Search 
+                      searchUsers={this.searchUsers} 
+                      clearUsers={this.clearUsers}
+                      showClear={users.length ? true : false}
+                      setAlert={this.setAlert}
+                    />
+                    <Users loading={loading} users={users} />
+                  </Fragment>
+                )} />
+                <Route exact path='/about' component={About} />
+              </Switch>
+            </div>
+          </header>
+        </div>
+      </Router>
     );
 
   }
