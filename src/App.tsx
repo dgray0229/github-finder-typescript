@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Switch, Route, RouteComponentProps } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import axios from 'axios';
 import Navbar from './components/layout/Navbar';
 import Users from './components/users/Users';
@@ -11,14 +11,22 @@ import './App.css';
 
 // Interfaces allow you to have multiple merged declarations, but a type alias for an objec ttype literal cannot
 // Unlike an interface, the type alias can also be used for other types such as primitives, unions, and tuples
+
+type Repo = {
+  id: string,
+  html_url: string,
+  name: string,
+}
+
 interface AppState {
   users: {}[],
   user: {} | null,
+  repos: Array<Repo>,
   loading: boolean,
   alert: {
     message?: string | null,
     type?: string | null,
-  } | null 
+  } | null,
 
 }
 
@@ -34,6 +42,7 @@ class App extends Component<{}, AppState> {
     user: {},
     loading: false,
     alert: null,
+    repos: [],
   }
 
   componentDidMount(): void {
@@ -68,8 +77,17 @@ class App extends Component<{}, AppState> {
     this.setState({loading: true});
     let response = await axios.get(`https://api.github.com/users/${login}?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`)
     this.setState({user: response.data, loading: false});
-
   }
+
+  // Get User's Repos
+  getUserRepos = async (login: string):Promise<void> => {
+    const [reposPerPage, sortBy, direction]: Array<string> = ['5', 'created', 'asc']
+    this.setState({loading: true});
+    let response = await axios.get(`https://api.github.com/users/${login}/repos?per_page=${reposPerPage}&sort=${sortBy}:${direction}&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`)
+    this.setState({repos: response.data, loading: false});
+  }
+
+
   // Clear Users from State
   clearUsers = ():void => this.setState({users: [], loading: false});
   
@@ -80,7 +98,7 @@ class App extends Component<{}, AppState> {
   };
 
   render() {
-    const {alert, loading, users, user} = this.state;
+    const {alert, users, user, repos, loading} = this.state;
     return (
       <Router>
         <div className="App">
@@ -104,7 +122,7 @@ class App extends Component<{}, AppState> {
                 <Route exact path='/user/:login' render={props => (
                   // We want to pass in any additional props passed to this route with { ...props }
                   // Then we define props specific to our User component.
-                  <User { ...props } getUser={this.getUser} user={user} loading={loading} />
+                  <User { ...props } getUser={this.getUser} getUserRepos={this.getUserRepos} user={user} repos={repos} loading={loading} />
                 )} />
               </Switch>
             </div>

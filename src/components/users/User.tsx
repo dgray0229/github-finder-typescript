@@ -1,9 +1,15 @@
 import React, { Component, Fragment } from 'react'
+import Spinner from '../layout/Spinner';
+import Repos from '../repos/Repos';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
-import Spinner from '../layout/Spinner';
+type Repo = {
+    id: string,
+    html_url: string,
+    name: string,
+}
 
 type Params = {
     login: string
@@ -12,6 +18,7 @@ type Params = {
 
 interface UserProps extends RouteComponentProps<Params> {
     getUser: (login: string) => Promise<void>,
+    getUserRepos: (login: string) => Promise<void>,
     user: { 
         name?: string, 
         avatar_url?: string, 
@@ -27,6 +34,7 @@ interface UserProps extends RouteComponentProps<Params> {
         public_gists?: string, 
         hireable?: string,
     },
+    repos: Array<Repo>,
     loading: boolean,
 }
 interface UserState {
@@ -37,13 +45,14 @@ export default class User extends Component<UserProps, UserState> {
     state = {}
 
     componentDidMount(): void {
-        const { getUser, match }: UserProps = this.props
+        const { getUser, getUserRepos, match }: UserProps = this.props
         getUser(match.params.login);
+        getUserRepos(match.params.login);
     }
 
     render() {
         const { name, avatar_url, location, bio, blog, company, login, html_url, followers, following, public_repos, public_gists, hireable } = this.props.user
-        const { loading } = this.props
+        const { loading, repos } = this.props
         if (loading) return <Spinner />
         return (
             <Fragment>
@@ -70,7 +79,7 @@ export default class User extends Component<UserProps, UserState> {
                             <li>
                                 {login && (
                                     <Fragment>
-                                        <strong>Username: </strong> {login}
+                                        <strong>Username: </strong>  <a href={html_url} target="_blank" rel="noopener noreferrer">{login}</a>
                                     </Fragment>
                                 )}
                             </li>
@@ -97,6 +106,7 @@ export default class User extends Component<UserProps, UserState> {
                     <div className="badge badge-white">Public Repos: {public_repos}</div>
                     <div className="badge badge-dark">Public Gists: {public_gists}</div>
                 </div>
+                <Repos repos={repos} />
             </Fragment>
         )
     }
