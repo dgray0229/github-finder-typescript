@@ -45,6 +45,7 @@ class App extends Component<{}, AppState> {
     repos: [],
   }
 
+
   componentDidMount(): void {
     // This will call our getUsers method
     this.getUsers()
@@ -101,8 +102,8 @@ class App extends Component<{}, AppState> {
     const {alert, users, user, repos, loading} = this.state;
     return (
       <Router>
-        <div className="App">
-          <header className="App-header">
+        <div id="app" className="app" data-testid="app">
+          <header className="app-header">
             <Navbar title="Github Finder"  />
             <div className="container">
               <Alert alert={alert} />
