@@ -13,7 +13,6 @@ Enzyme.configure({ adapter: new Adapter() })
 
 let wrapper: any = null
 let instance: any = null
-let handleChangeSpy: any = null
 
 let props: any = {
     searchUsers: false,
@@ -26,7 +25,6 @@ let props: any = {
 beforeAll(() => {
     wrapper = shallow(<Search {...props} />)
     instance = wrapper.instance()
-    handleChangeSpy = jest.spyOn(instance, "handleChange")
 })
 
 let container: any;
@@ -44,7 +42,7 @@ afterEach(() => {
     container = null;
 });
 
-describe("User Component", () => {
+describe("Search Component", () => {
     test('renders successfully', () => {
         expect(wrapper.exists()).toBe(true)
     });
@@ -60,11 +58,10 @@ describe("User Component", () => {
 
         wrapper.find('#query').simulate('change', {currentTarget: {name: 'query', value: 'dgray0229'}})
         wrapper.find('#query', {}, (result: any) => {
-            expect(result[0].value).toEqual(wrapper.state.query)
+            expect(result[0].value).toEqual(wrapper.state().query)
             expect(result[0].value).toEqual("dgray0229")
             expect(wrapper.state().query).toEqual("dgray0229")
         })
-        console.log(wrapper.debug({ verbose: true }));
 
     })
 })
