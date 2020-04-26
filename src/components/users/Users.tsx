@@ -18,7 +18,7 @@ const Users = ({ users, loading }:UsersProps) => {
     return loading ? 
     (<Spinner />) : 
     (
-        <div style={userStyle}>
+        <div id="users" style={userStyle}>
             {users.map(user => (
                 <UserItem key={user.id} user={user} />
             ))}

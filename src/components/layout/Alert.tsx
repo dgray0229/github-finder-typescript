@@ -4,20 +4,16 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 
 interface AlertProps {
-    alert: {
-        message?: string, 
-        type?: string,
-    } | null
+    message?: string, 
+    type?: string,
 }
 
 
-const Alert: React.FunctionComponent<AlertProps> = ( { alert } : AlertProps ): ReturnType<any> => {
+const Alert: React.FunctionComponent<AlertProps> = ( { message, type } : AlertProps ): ReturnType<any> => {
     return (
-        alert !== null && (
-            <div className={`alert alert-${alert.type}`}>
-                <FontAwesomeIcon icon={faInfoCircle} /> {alert.message}
-            </div>
-        )
+        <div className={`alert alert-${type}`}>
+            <FontAwesomeIcon icon={faInfoCircle} /> {message}
+        </div>
     )
 }
 

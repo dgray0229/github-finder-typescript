@@ -1,4 +1,5 @@
-module.exports = '';
+export default '';
+// module.exports = 'test-file-stub';
 // const path = require('path');
 
 // module.exports = {
