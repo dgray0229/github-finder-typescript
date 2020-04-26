@@ -1,7 +1,6 @@
 import React from 'react';
-import { unmountComponentAtNode, findDOMNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import { render } from '@testing-library/react';
-import renderer from "react-test-renderer";
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { act } from 'react-dom/test-utils';
@@ -11,8 +10,7 @@ import Search from './Search';
 
 Enzyme.configure({ adapter: new Adapter() })
 
-let wrapper: any = null
-let instance: any = null
+let wrapper: any
 
 let props: any = {
     searchUsers: false,
@@ -24,7 +22,6 @@ let props: any = {
 
 beforeAll(() => {
     wrapper = shallow(<Search {...props} />)
-    instance = wrapper.instance()
 })
 
 let container: any;

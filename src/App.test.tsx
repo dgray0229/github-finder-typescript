@@ -1,18 +1,9 @@
 import React from "react";
 import ReactDOM, { unmountComponentAtNode } from "react-dom";
-import { act } from "react-dom/test-utils";
-import { render } from "@testing-library/react";
-import Enzyme, { shallow, mount } from "enzyme";
+import Enzyme, { shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import axios from "axios";
 
 import App from "./App";
-let [reposPerPage, sortBy, direction]: Array<string> = ["5", "created", "asc"];
-let query = `dgray0229`;
-let login = `dgray0229`;
-const getData = `https://api.github.com/users?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`;
-const searchData = `https://api.github.com/search/users?q=${query}&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`;
-const getRepos = `https://api.github.com/users/${login}/repos?per_page=${reposPerPage}&sort=${sortBy}:${direction}&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`;
 
 Enzyme.configure({ adapter: new Adapter() });
 jest.mock("axios");

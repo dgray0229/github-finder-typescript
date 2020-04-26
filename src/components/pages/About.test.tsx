@@ -1,7 +1,4 @@
 import React from 'react';
-import { unmountComponentAtNode } from 'react-dom';
-import { render } from '@testing-library/react';
-import renderer from "react-test-renderer";
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 

@@ -1,7 +1,4 @@
 import React from 'react';
-import { unmountComponentAtNode } from 'react-dom';
-import { render } from '@testing-library/react';
-import renderer from "react-test-renderer";
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
@@ -10,9 +7,7 @@ import User from './User';
 
 Enzyme.configure({ adapter: new Adapter() })
 
-let wrapper: any = null
-
-let getUser
+let wrapper: any
 let props: any = {
     loading: false,
     user: {
@@ -122,12 +117,6 @@ let props: any = {
     getUser: jest.fn(x => props.user.login),
     getUserRepos: jest.fn(x => props.user.repos),
 }
-
-getUser = async (login: string):Promise<void> => {
-    
-}
-
-
 
 beforeEach(() => {
     wrapper = shallow(<User {...props} />)
