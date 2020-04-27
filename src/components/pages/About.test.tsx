@@ -12,5 +12,6 @@ describe("About Page", () => {
     test('renders successfully', () => {
         const wrapper = shallow(<About />)
         expect(wrapper.exists()).toBe(true)
+        expect(wrapper).toMatchSnapshot();
       });  
 });

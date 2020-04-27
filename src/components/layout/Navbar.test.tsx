@@ -6,12 +6,6 @@ import Navbar from './Navbar';
 
 Enzyme.configure({ adapter: new Adapter() })
 
-describe('My Test Suite', () => {
-  it('My Test Case', () => {
-    expect(true).toEqual(true);
-  });
-});
-
 describe("Navbar Component", () => {
   test("renders main component", () => {
     const wrapper = shallow(<Navbar />)
