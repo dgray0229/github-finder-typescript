@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-const About = () => {
+const About: React.SFC = () => {
     return (
         <Fragment>
             <h1 data-testid="about">About This App</h1>

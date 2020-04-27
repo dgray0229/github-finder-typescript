@@ -4,10 +4,10 @@ interface SearchProps {
     searchUsers: (query: string) => void,
     clearUsers: () => void,
     showClear: boolean,
-    setAlert: ( message: string, type: string ) => void
+    showAlert: ( message: string, type: string ) => void
 }
 
-const Search = ({ searchUsers, clearUsers, showClear, setAlert }: SearchProps) =>  {
+const Search: React.SFC<SearchProps> = ({ searchUsers, clearUsers, showClear, showAlert }: SearchProps) =>  {
     const [query, setQuery] = useState('')
 
     // Here we define our handleChange() as a special React Type
@@ -31,7 +31,7 @@ const Search = ({ searchUsers, clearUsers, showClear, setAlert }: SearchProps) =
     const onSubmit = (event: React.SyntheticEvent<EventTarget>) => {
         event.preventDefault();
         if (!query || query === '') {
-            setAlert("Please enter something", "light");
+            showAlert("Please enter something", "light");
         } else {
             searchUsers(query)
             setQuery('')

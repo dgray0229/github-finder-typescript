@@ -8,7 +8,7 @@ interface RepoItemProps {
     }
 }
 
-const RepoItem = ( {repo: {html_url, name}} : RepoItemProps) => {
+const RepoItem: React.SFC<RepoItemProps> = ( {repo: {html_url, name}} : RepoItemProps) => {
     return (
         <div className="card">
             <h3>

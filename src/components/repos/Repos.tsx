@@ -13,7 +13,7 @@ interface ReposProps {
 }
 
 
-const Repos = ( {repos} : ReposProps): any => {
+const Repos: React.SFC<ReposProps> = ( {repos} : ReposProps): any => {
     return repos.map((repo: Repo) => <RepoItem repo={repo} key={repo.id} />)
 }
 

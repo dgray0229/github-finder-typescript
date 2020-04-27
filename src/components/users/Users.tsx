@@ -13,7 +13,7 @@ interface UsersProps {
     loading?: boolean,
 }
 
-const Users = ({ users, loading }:UsersProps) => {
+const Users: React.SFC<UsersProps> = ({ users, loading }:UsersProps) => {
     // If we don't create a constructor, JavaScript will initialize by default what it needs for a basic class, such as error methods
     return loading ? 
     (<Spinner />) : 

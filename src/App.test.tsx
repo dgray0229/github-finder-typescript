@@ -9,10 +9,15 @@ Enzyme.configure({ adapter: new Adapter() });
 jest.mock("axios");
 
 // Unit Tests with Jest
-let container: any = null;
-let wrapper: any = null;
-let instance: any = null;
-let getUsersSpy: any = null;
+let container: any
+let wrapper: any
+let instance: any
+let getUsersSpy: any
+let useEffect: any
+
+const mockUseEffect = () => {
+  useEffect.mmockImplementationOnce((f: any) => f());
+}
 
 beforeAll(() => {
   // setup a DOM element as a render target
@@ -22,6 +27,7 @@ beforeAll(() => {
   wrapper = shallow(<App />, { disableLifecycleMethods: true });
   instance = wrapper.instance();
   // Use the instance when methods are stored as function expressions
+  useEffect = jest.spyOn(React, "useEffect").mockImplementation((f: any) => f());
   getUsersSpy = jest.spyOn(instance, "getUsers");
   // for declared functions using function() {}, run .spyOn on the component prototype
   // getUsersSpy = jest.spyOn(App.prototype, "getUsers")
@@ -57,6 +63,7 @@ describe("Main App", () => {
 
   test("getUsers runs on componentDidMount", () => {
     instance.componentDidMount();
+    mockUseEffect();
     expect(getUsersSpy).toHaveBeenCalled();
   });
 
