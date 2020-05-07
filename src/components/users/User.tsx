@@ -1,48 +1,19 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { useContext, useEffect, Fragment } from 'react'
 import Spinner from '../layout/Spinner';
 import Repos from '../repos/Repos';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
-
-type Repo = {
-    id: string,
-    html_url: string,
-    name: string,
-}
-
-type Params = {
-    login: string
-}
-  
-
-interface UserProps extends RouteComponentProps<Params> {
-    getUser: (login: string) => Promise<void>,
-    getUserRepos: (login: string) => Promise<void>,
-    user: { 
-        name?: string, 
-        avatar_url?: string, 
-        location?: string, 
-        bio?: string, 
-        blog?: string,
-        company?: string,
-        login?: string, 
-        html_url?: string, 
-        followers?: string, 
-        following?: string, 
-        public_repos?: string, 
-        public_gists?: string, 
-        hireable?: string,
-    },
-    repos: Array<Repo>,
-    loading: boolean,
-}
+import GithubContext, { GithubContextInterface, UserContext } from '../../context/github/githubContext'  
 
 // We pass in props as a param in functional component, so we can destructure our props as we're passing them in
-const User: React.SFC<UserProps> = ({ getUser, getUserRepos, user, repos, loading, match }: UserProps) =>  {
+const User: React.SFC = ({ match }: any) =>  {
+    const githubContext: GithubContextInterface = useContext(GithubContext);
+    const { getUser, getUserRepos, loading, repos, user } = githubContext;
+
     useEffect( () => {
-        getUser(match.params.login);
-        getUserRepos(match.params.login);
+        getUser!(match.params.login);
+        getUserRepos!(match.params.login);
         // The second parameter for useEffect is a dependency list
         // To avoid useEffect running continuously, we need to tell it when to change,
         // We could tell it to run only when a prop like 'repos' changes, 
@@ -56,7 +27,7 @@ const User: React.SFC<UserProps> = ({ getUser, getUserRepos, user, repos, loadin
         // when UseEffect is called, it will call getUser... and the cycle repeats itself 
 
 
-    const { name, avatar_url, location, bio, blog, company, login, html_url, followers, following, public_repos, public_gists, hireable } = user
+    const { name, avatar_url, location, bio, blog, company, login, html_url, followers, following, public_repos, public_gists, hireable } = user as UserContext;
     if (loading) return <Spinner />
     return (
         <Fragment>

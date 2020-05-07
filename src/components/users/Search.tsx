@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react';
+import GithubContext, { GithubContextInterface} from '../../context/github/githubContext';
+import AlertContext, { AlertContextInterface } from '../../context/alert/alertContext';
 
-interface SearchProps {
-    searchUsers: (query: string) => void,
-    clearUsers: () => void,
-    showClear: boolean,
-    showAlert: ( message: string, type: string ) => void
-}
-
-const Search: React.SFC<SearchProps> = ({ searchUsers, clearUsers, showClear, showAlert }: SearchProps) =>  {
+const Search: React.SFC = () =>  {
+    const githubContext: GithubContextInterface  = useContext(GithubContext);
+    const alertContext: AlertContextInterface = useContext(AlertContext);
+    const { users, searchUsers, clearUsers } = githubContext;
+    const { showAlert } = alertContext;
     const [query, setQuery] = useState('')
 
     // Here we define our handleChange() as a special React Type
@@ -31,9 +30,9 @@ const Search: React.SFC<SearchProps> = ({ searchUsers, clearUsers, showClear, sh
     const onSubmit = (event: React.SyntheticEvent<EventTarget>) => {
         event.preventDefault();
         if (!query || query === '') {
-            showAlert("Please enter something", "light");
+            showAlert!("Please enter something", "light");
         } else {
-            searchUsers(query)
+            searchUsers!(query)
             setQuery('')
         }
     }
@@ -44,7 +43,7 @@ const Search: React.SFC<SearchProps> = ({ searchUsers, clearUsers, showClear, sh
                 <input type="text" name="query" id="query" placeholder="Search Users..." value={query} onChange={handleChange} />
                 <input type="submit" value="Search" className="btn btn-dark btn-block" />
             </form>
-            {showClear && <button className="btn btn-light btn-block" onClick={clearUsers}>Clear</button>}
+            {users.length > 0 && <button className="btn btn-light btn-block" onClick={clearUsers}>Clear</button>}
         </div>
     )
 }

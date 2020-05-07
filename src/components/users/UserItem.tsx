@@ -1,14 +1,10 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import { UserContext } from '../../context/github/githubContext';
 
 type UserItemProps = {
     key: number,
-    user: {
-        login: string,
-        id: number,
-        avatar_url: string,
-        html_url?: string,    
-    }
+    user: UserContext
 }
 
 // Since this component will only render data from props, we are marking this type as Readonly<Type>
