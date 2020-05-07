@@ -3,21 +3,34 @@ import ReactDOM, { unmountComponentAtNode } from "react-dom";
 import Enzyme, { shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
-import App from "./App";
+import GithubState from "./GithubState";
 
 Enzyme.configure({ adapter: new Adapter() });
 jest.mock("axios");
 
 // Unit Tests with Jest
-let container: Element | DocumentFragment | any
-let wrapper: Partial<React.Component<{}, {}, any>> | any
+let container: any
+let wrapper: any
+let instance: any
+let getUsersSpy: any
+let useEffect: any
+
+const mockUseEffect = () => {
+  useEffect.mmockImplementationOnce((f: any) => f());
+}
 
 beforeAll(() => {
   // setup a DOM element as a render target
   container = document.createElement("div");
   document.body.appendChild(container);
-  wrapper = shallow(<App />, { disableLifecycleMethods: true });
+  GithubState.prototype.getUsers = jest.fn();
+  wrapper = shallow(<GithubState />, { disableLifecycleMethods: true });
+  instance = wrapper.instance();
   // Use the instance when methods are stored as function expressions
+  useEffect = jest.spyOn(React, "useEffect").mockImplementation((f: any) => f());
+  getUsersSpy = jest.spyOn(instance, "getUsers");
+  // for declared functions using function() {}, run .spyOn on the component prototype
+  // getUsersSpy = jest.spyOn(GithubState.prototype, "getUsers")
 });
 
 afterAll(() => {
@@ -33,15 +46,25 @@ describe("My Test Suite", () => {
   });
 });
 
-describe("Main App", () => {
+describe("Main GithubState", () => {
   test("renders without crashing", () => {
     const div = document.body.appendChild(container);
-    ReactDOM.render(<App />, div);
+    ReactDOM.render(<GithubState />, div);
     unmountComponentAtNode(div);
   });
 
   test("renders successfully", () => {
     expect(wrapper.exists()).toBe(true);
+  });
+
+  test("shallow rendering", () => {
+    expect(wrapper.state("users")).toEqual(expect.any(Array));
+  });
+
+  test("getUsers runs on componentDidMount", () => {
+    instance.componentDidMount();
+    mockUseEffect();
+    expect(getUsersSpy).toHaveBeenCalled();
   });
 
   test("Has Results", () => {

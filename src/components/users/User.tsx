@@ -6,8 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import GithubContext, { GithubContextInterface, UserContext } from '../../context/github/githubContext'  
 
+type MatchParams = {
+    login: string;
+}
+
+interface UserProps extends RouteComponentProps<MatchParams> {}
+  
+  
 // We pass in props as a param in functional component, so we can destructure our props as we're passing them in
-const User: React.SFC = ({ match }: any) =>  {
+const User: React.SFC<UserProps> = ({ match }: UserProps) =>  {
     const githubContext: GithubContextInterface = useContext(GithubContext);
     const { getUser, getUserRepos, loading, repos, user } = githubContext;
 
