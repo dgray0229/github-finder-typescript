@@ -6,12 +6,12 @@ import {
     GET_USERS,
     GET_USER,
     GET_REPOS,
-    ReducerActions,
+    AppReducerActions,
 } from '../types';
 
 import { GithubContextInterface } from './githubContext';
 
-export default (state: GithubContextInterface, action: ReducerActions) => {
+export default (state: GithubContextInterface, action: AppReducerActions) => {
     switch(action.type) {
         case HANDLE_ERROR:
             return {

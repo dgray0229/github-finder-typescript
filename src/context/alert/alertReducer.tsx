@@ -1,7 +1,7 @@
-import { SET_ALERT, REMOVE_ALERT, ReducerActions } from '../types';
+import { SET_ALERT, REMOVE_ALERT, AppReducerActions } from '../types';
 import { AlertContextInterface } from './alertContext';
 
-export default(state: AlertContextInterface, action: ReducerActions) => {
+export default(state: AlertContextInterface, action: AppReducerActions) => {
     switch(action.type) {
         case SET_ALERT:
             return action.payload;

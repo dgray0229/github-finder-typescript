@@ -7,7 +7,7 @@ const Users: React.SFC = () => {
     const githubContext = useContext(GithubContext);
 
     const { getUsers, loading, users } = githubContext;
-    // eslint-disable-next-line no-console
+    // eslint-disable-next-line
     useEffect(() => {getUsers!()}, [])
     return loading ? 
     (<Spinner />) : 
