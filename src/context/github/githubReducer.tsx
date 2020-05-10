@@ -28,7 +28,7 @@ export default (state: GithubContextInterface, action: ReducerActions) => {
         case GET_USERS:
             return {
                 ...state,
-                user: action.payload,
+                users: action.payload,
                 loading: false
             }
         case GET_USER:

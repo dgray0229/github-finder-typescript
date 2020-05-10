@@ -1,15 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import UserItem from './UserItem'
 import Spinner from '../layout/Spinner'
 import GithubContext, { UserContext } from '../../context/github/githubContext'
 
-// Here we are creating an interface to define our state
-
 const Users: React.SFC = () => {
     const githubContext = useContext(GithubContext);
 
-    const { loading, users } = githubContext;
-    // If we don't create a constructor, JavaScript will initialize by default what it needs for a basic class, such as error methods
+    const { getUsers, loading, users } = githubContext;
+    // eslint-disable-next-line no-console
+    useEffect(() => {getUsers!()}, [])
     return loading ? 
     (<Spinner />) : 
     (

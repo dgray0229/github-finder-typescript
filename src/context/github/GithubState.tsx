@@ -13,6 +13,10 @@ import {
   GET_REPOS,
 } from "../types";
 
+
+let githubClientId: string | undefined = process.env.GITHUB_CLIENT_ID;
+let githubClientSecret: string | undefined = process.env.GITHUB_CLIENT_SECRET;
+
 const GithubState = (props: any) => {
   const initialState: GithubContextInterface = {
     users: [],
@@ -30,8 +34,6 @@ const GithubState = (props: any) => {
       type: HANDLE_ERROR,
       payload: message
     });
-    // setAlert(message);
-    // setLoading(false);
   };
 
   // Search Github Users
@@ -41,7 +43,7 @@ const GithubState = (props: any) => {
     try {
       setLoading();
       let response = await axios.get(
-        `https://api.github.com/search/users?q=${query}&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`
+        `https://api.github.com/search/users?q=${query}&client_id=${githubClientId}&client_secret=${githubClientSecret}`
       );
       if (response) {
         let { items } = response.data;
@@ -56,16 +58,17 @@ const GithubState = (props: any) => {
   };
 
   // Get Users
-  // The getUsers() method sends an axios request, which is a Promise
-  // Since the function doesn't return a value, but rather updates the state
-  // The function type would be Promise<void>
-  // Adding this type is optional
-  // if this was a normal async function(){} the async goes before the function call
   const getUsers = async (): Promise<void> => {
+    // The getUsers() method sends an axios request, which is a Promise
+    // Since the function doesn't return a value, but rather updates the state
+    // The function type would be Promise<void>
+    // Adding this type is optional
+    // if this was a normal async function(){} the async goes before the function call
+
     setLoading();
     try {
       let response = await axios.get(
-        `https://api.github.com/users?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`
+        `https://api.github.com/users?client_id=${githubClientId}&client_secret=${githubClientSecret}`
       );
       if (response) {
         let { data } = response;
@@ -83,7 +86,7 @@ const GithubState = (props: any) => {
     setLoading();
     try {
       let response = await axios.get(
-        `https://api.github.com/users/${login}?client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`
+        `https://api.github.com/users/${login}?client_id=${githubClientId}&client_secret=${githubClientSecret}`
       );
       if (response) {
         let { data } = response;
@@ -107,7 +110,7 @@ const GithubState = (props: any) => {
     try {
       setLoading();
       let response = await axios.get(
-        `https://api.github.com/users/${login}/repos?per_page=${reposPerPage}&sort=${sortBy}:${direction}&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`
+        `https://api.github.com/users/${login}/repos?per_page=${reposPerPage}&sort=${sortBy}:${direction}&client_id=${githubClientId}&client_secret=${githubClientSecret}`
       );
       if (response) {
         let { data } = response;
@@ -124,22 +127,9 @@ const GithubState = (props: any) => {
   // Clear Users from State
   const clearUsers = (): void => dispatch({ type: CLEAR_USERS });
 
-  // Set Loading
-
-  const { users, user, repos, loading } = state;
   return (
     <GithubContext.Provider
-      value={{
-        users,
-        user,
-        repos,
-        loading,
-        searchUsers,
-        clearUsers,
-        getUsers,
-        getUser,
-        getUserRepos,
-      } as GithubContextInterface}>
+      value={ { ...state, searchUsers, clearUsers, getUsers, getUser, getUserRepos } as GithubContextInterface } >
       {props.children}
     </GithubContext.Provider>
   );

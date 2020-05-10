@@ -20,8 +20,6 @@ const Search: React.SFC = () =>  {
         const { value } = event.currentTarget
         // When we need to set the state, we dynamically define the key of setState to be the value of the [name] property
         // We then set that property to the value of event.currentTarget.value
-        // Because typescript doesn't recognize [name] as a parameter, we use `Pick` to ensure that we're setting a key that has been defined in our interface
-        // We tell the Pick command that our [name] value is in SearchState as a key
         setQuery(value)
     }
 
