@@ -1,17 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spinner Component renders main component 1`] = `
-<Fragment>
-  <img
-    alt="Loading..."
-    src=""
-    style={
-      Object {
-        "display": "block",
-        "margin": "auto",
-        "width": "200px",
-      }
-    }
-  />
-</Fragment>
-`;
+exports[`Spinner Component renders main component 1`] = `ShallowWrapper {}`;
